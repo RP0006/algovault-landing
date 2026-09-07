@@ -1,8 +1,12 @@
-import React from 'react';
-import { Apple, Monitor, CheckCircle2 } from 'lucide-react';
+import React, { useState } from 'react';
+import { Apple, Monitor, CheckCircle2, Sparkles, ArrowRight, ShieldCheck, Zap } from 'lucide-react';
 import { APP_CONFIG } from '../data/config';
+import { Link } from 'react-router-dom';
+import { CheckoutModal } from './CheckoutModal';
 
 export const Hero: React.FC = () => {
+  const [showCheckout, setShowCheckout] = useState(false);
+
   return (
     <section
       style={{
@@ -24,7 +28,7 @@ export const Hero: React.FC = () => {
           <span className="pulse-dot" />
           <span>{APP_CONFIG.releaseTag}</span>
           <span style={{ opacity: 0.4 }}>|</span>
-          <span style={{ color: '#e2e8f0' }}>Offline-First Desktop App</span>
+          <span style={{ color: '#e2e8f0' }}>Commercial Desktop Application</span>
         </div>
 
         {/* Hero Headline */}
@@ -79,54 +83,67 @@ export const Hero: React.FC = () => {
             color: '#94a3b8',
             maxWidth: '740px',
             lineHeight: 1.65,
-            marginBottom: '40px',
+            marginBottom: '36px',
             fontWeight: 400,
           }}
         >
           Save coding problems, record approaches and mistakes, organize problems by{' '}
           <span style={{ color: '#e2e8f0', fontWeight: 600 }}>DSA patterns</span>, and revise them systematically with{' '}
-          <span style={{ color: '#00f0ff', fontWeight: 600 }}>scientific spaced repetition</span>.
+          <span style={{ color: '#00f0ff', fontWeight: 600 }}>scientific spaced repetition</span> on your desktop.
         </p>
 
-        {/* Dual Primary CTA Buttons */}
+        {/* Dual Primary Commercial CTA Buttons */}
         <div
           style={{
             display: 'flex',
             flexWrap: 'wrap',
             gap: '16px',
             justifyContent: 'center',
-            marginBottom: '36px',
+            marginBottom: '24px',
             width: '100%',
-            maxWidth: '600px',
+            maxWidth: '640px',
           }}
         >
-          <a
-            href={APP_CONFIG.downloads.mac.url}
+          <button
+            onClick={() => setShowCheckout(true)}
             className="btn-primary"
-            style={{ flex: '1 1 240px', minWidth: '220px' }}
-            title="Download for macOS (Apple Silicon & Intel)"
-            id="hero-mac-download"
+            style={{ flex: '1 1 240px', minWidth: '220px', cursor: 'pointer' }}
+            title="Buy AlgoVault Pro Lifetime License"
+            id="hero-buy-pro"
           >
-            <Apple size={20} />
+            <Sparkles size={20} />
             <div style={{ textAlign: 'left', display: 'flex', flexDirection: 'column' }}>
-              <span style={{ fontSize: '0.98rem', lineHeight: 1.2 }}>Download for Mac</span>
-              <span style={{ fontSize: '0.72rem', opacity: 0.8, fontWeight: 500 }}>Universal DMG · macOS 12+</span>
+              <span style={{ fontSize: '0.98rem', lineHeight: 1.2 }}>Get Pro Lifetime (₹1,499)</span>
+              <span style={{ fontSize: '0.72rem', opacity: 0.9, fontWeight: 500 }}>3 Machines · One-time Payment</span>
             </div>
-          </a>
+          </button>
 
-          <a
-            href={APP_CONFIG.downloads.windows.url}
+          <Link
+            to="/download"
             className="btn-secondary"
-            style={{ flex: '1 1 240px', minWidth: '220px' }}
-            title="Download for Windows (64-bit)"
-            id="hero-windows-download"
+            style={{ flex: '1 1 240px', minWidth: '220px', textDecoration: 'none' }}
+            title="Download Free Community Edition"
+            id="hero-download-free"
           >
-            <Monitor size={20} color="#38bdf8" />
+            <Zap size={20} color="#38bdf8" />
             <div style={{ textAlign: 'left', display: 'flex', flexDirection: 'column' }}>
-              <span style={{ fontSize: '0.98rem', lineHeight: 1.2 }}>Download for Windows</span>
-              <span style={{ fontSize: '0.72rem', color: '#94a3b8', fontWeight: 500 }}>Installer .exe · Win 10/11</span>
+              <span style={{ fontSize: '0.98rem', lineHeight: 1.2 }}>Download Desktop App</span>
+              <span style={{ fontSize: '0.72rem', color: '#94a3b8', fontWeight: 500 }}>macOS, Windows, Linux</span>
             </div>
+          </Link>
+        </div>
+
+        {/* Secondary Navigation Links */}
+        <div style={{ display: 'flex', gap: '20px', marginBottom: '32px', fontSize: '0.9rem' }}>
+          <a href="#showcase" style={{ color: '#00f0ff', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '4px' }}>
+            <span>Explore Native UI Demo</span>
+            <ArrowRight size={14} />
           </a>
+          <span style={{ color: '#334155' }}>•</span>
+          <Link to="/dsa" style={{ color: '#94a3b8', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '4px' }}>
+            <span>Browse 11 DSA Patterns</span>
+            <ArrowRight size={14} />
+          </Link>
         </div>
 
         {/* Quick specs & trust points */}
@@ -151,14 +168,25 @@ export const Hero: React.FC = () => {
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
             <CheckCircle2 size={16} color="#00f0ff" />
-            <span>0ms Search Latency</span>
+            <span>SM-2 Spaced Repetition</span>
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <CheckCircle2 size={16} color="#00f0ff" />
-            <span>Free & Open-Core</span>
+            <ShieldCheck size={16} color="#10b981" />
+            <span>30-Day Money-Back Guarantee</span>
           </div>
         </div>
       </div>
+
+      {/* Checkout Modal */}
+      {showCheckout && (
+        <CheckoutModal
+          isOpen={showCheckout}
+          onClose={() => setShowCheckout(false)}
+          planId="pro_lifetime"
+          planName="AlgoVault Pro — Lifetime License"
+          amountInr={1499}
+        />
+      )}
     </section>
   );
 };
